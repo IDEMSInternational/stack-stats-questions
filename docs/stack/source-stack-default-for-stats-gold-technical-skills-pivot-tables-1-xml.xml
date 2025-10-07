@@ -10,7 +10,7 @@
 
 &lt;p&gt;The task is to use the data below to answer the following questions &lt;strong&gt;using pivot tables&lt;/strong&gt; to investigate how the treatments affect the yield.&lt;/p&gt;
 
-&lt;p&gt;&lt;button onclick="exportToCsv()"&gt;Download Data&lt;/button&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data_set,header)@}[[/textdownload]]"&gt;Download Data&lt;/a&gt;&lt;/p&gt;
 
 &lt;br&gt;
 
@@ -24,30 +24,7 @@
 
 &lt;p&gt;3. What is the {@quest_expr3@} yield for Variety \(1\) when Fertiliser \(1\) is used? Give your answer to \(2\text{dp}\)&lt;/p&gt;
 &lt;p&gt;[[input:ans3]] [[validation:ans3]]&lt;/p&gt;
-&lt;p&gt;[[feedback:prt3]]&lt;/p&gt;
-
-&lt;script&gt;
-var Results= {#data_set#};
-
-exportToCsv = function(file_name) {
-  var CsvString = "";
-  Results.forEach(function(RowItem, RowIndex) {
-    RowItem.forEach(function(ColItem, ColIndex) {
-             CsvString += ColItem;
-             if( ColIndex &lt; RowItem.length - 1){
-                 CsvString += ',';
-                } 
-    });
-    CsvString += "\r\n";
-  });
-  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
- var x = document.createElement("A");
- x.setAttribute("href", CsvString );
- x.setAttribute("download","data_set.csv");
- document.body.appendChild(x);
- x.click();
-}
-&lt;/script&gt;</text>
+&lt;p&gt;[[feedback:prt3]]&lt;/p&gt;</text>
     </questiontext>
     <generalfeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3" unique-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3">
       <text original-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3-1" unique-id="source-stack-default-for-stats-gold-technical-skills-pivot-tables-1-xml-1-1-3-1">&lt;p&gt;Full details on how to create and use Pivot tables can be found &lt;a href="https://docs.google.com/document/d/1Q349NXt0AkStgVHHVkkDGBZVS-KT5Gl_IcdnSTemhEQ/edit?usp=sharing"  target="_blank"&gt;here&lt;/a&gt;.</text>
@@ -137,8 +114,9 @@ for i: 1 thru number_rows do (
 );
 
 /* Add headers row to data set */
+header: append(factor_names, ["Replication", "Yield"]);
 data_set:append(
-    [append(factor_names, ["Replication", "Yield"])],
+    [header],
     data_set
 );
 

@@ -2,11 +2,25 @@
         <chapter xml:id="ch-default-for-stats-gold" xmlns:xi="http://www.w3.org/2001/XInclude">
             <title>Default for Stats Gold</title>
             <introduction>
-                
-                
+                <p>
+                    This is a PreText textbook mirroring the statics STACK question on our Moodle server.
+                </p>
+
+                <p>
+                    This makes it possible to preview questions without having to create an account on our Moodle server.
+                    STACK integration into PreText is experimental, and thus not all questions may work as they do in Moodle.
+                </p>
+
+                <p>
+                This question collection is designed to test learning at three complementary levels.
+                The Conceptual Understanding questions focus on building and checking understanding of methods.
+                The Applied Comprehension questions ask students to interpret results, and connect them to real-world data contexts.
+                Finally, the Technical Skill questions go deeper, exploring the reasoning behind the methods and ensuring students can carry out correct calculations and processes in context.
+                Together, these levels provide a rounded assessment of both practical ability and critical thinking in working with data.
+                </p>
             </introduction>
+            <xi:include href="conceptual-understanding/conceptual-understanding.ptx" />
+            <xi:include href="applied-comprehension/applied-comprehension.ptx" />
             <xi:include href="technical-skills/technical-skills.ptx" />
-<xi:include href="conceptual-understanding/conceptual-understanding.ptx" />
-<xi:include href="applied-comprehension/applied-comprehension.ptx" />
         </chapter>
         

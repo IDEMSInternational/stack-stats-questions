@@ -7,7 +7,7 @@
     <questiontext format="html">
       <text><![CDATA[<p>A survey was conducted, involving 100 farmers, wherein they were provided with a questionnaire. The dataset contains information on three key variables resulting from this simulated survey: Age, Variety, and Yield. </p>
 
-<p><button onclick="exportToCsv()">Download Data</button></p>
+<p><a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,factor_names)@}[[/textdownload]]">Download Data</a></p>
 
 <br>
 
@@ -37,30 +37,7 @@
 
 <p>4. Does the age of the farmer have an effect on the yield?</p>
 <p>[[input:ans4]] [[validation:ans4]]</p>
-<p>[[feedback:prt4]]</p>
-
-<script>
-var Results= {#data_set#};
-
-exportToCsv = function(file_name) {
-  var CsvString = "";
-  Results.forEach(function(RowItem, RowIndex) {
-    RowItem.forEach(function(ColItem, ColIndex) {
-             CsvString += ColItem;
-             if( ColIndex < RowItem.length - 1){
-                 CsvString += ',';
-                } 
-    });
-    CsvString += "\r\n";
-  });
-  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
- var x = document.createElement("A");
- x.setAttribute("href", CsvString );
- x.setAttribute("download","data_set.csv");
- document.body.appendChild(x);
- x.click();
-}
-</script>]]></text>
+<p>[[feedback:prt4]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text/>
@@ -227,7 +204,8 @@ for factor in factor_info do block(
 );
 
 /* Rotate the data to be given in rows rather than columns of each factor, also add header row */
-data_set: append([factor_names], makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows));
+data: makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows);
+data_set: append([factor_names], data);
 
 
 /* ------------- OTHER QUESTION VARIABLES */

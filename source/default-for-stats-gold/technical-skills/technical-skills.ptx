@@ -38,9 +38,11 @@
                 <title>Appending Data</title>
     
 
-                <!--<introduction>
-                    <p></p>
-                </introduction>-->
+                <introduction>
+                    <p>This question uses a fixed external data set, converted to csv using custom Javascript within the STACK question.
+                        This is currently not supported in our PreText implementation; thus this question doesn't work here.
+                    </p>
+                </introduction>
 
                 <!-- A @label is required, becomes a filename in output -->
                 <stack label="source-stack-default-for-stats-gold-technical-skills-appending-data-xml" xmlns:xi="http://www.w3.org/2001/XInclude">
@@ -53,9 +55,11 @@
                 <title>Missing Values</title>
     
 
-                <!--<introduction>
-                    <p></p>
-                </introduction>-->
+                <introduction>
+                    <p>This question uses a fixed external data set, converted to csv using custom Javascript within the STACK question.
+                        This is currently not supported in our PreText implementation; thus this question doesn't work here.
+                    </p>
+                </introduction>
 
                 <!-- A @label is required, becomes a filename in output -->
                 <stack label="source-stack-default-for-stats-gold-technical-skills-missing-values-xml" xmlns:xi="http://www.w3.org/2001/XInclude">

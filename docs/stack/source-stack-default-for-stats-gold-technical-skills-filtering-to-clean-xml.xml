@@ -8,7 +8,7 @@
     <questiontext format="html" original-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2" unique-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2">
       <text original-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2-1" unique-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-2-1">&lt;p&gt;A survey was conducted, involving 100 farmers, wherein they were provided with a questionnaire. The dataset contains information on three key variables resulting from this simulated survey: Age, Variety, and Yield. &lt;/p&gt;
 
-&lt;p&gt;&lt;button onclick="exportToCsv()"&gt;Download Data&lt;/button&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,factor_names)@}[[/textdownload]]"&gt;Download Data&lt;/a&gt;&lt;/p&gt;
 
 &lt;br&gt;
 
@@ -38,30 +38,7 @@
 
 &lt;p&gt;4. Does the age of the farmer have an effect on the yield?&lt;/p&gt;
 &lt;p&gt;[[input:ans4]] [[validation:ans4]]&lt;/p&gt;
-&lt;p&gt;[[feedback:prt4]]&lt;/p&gt;
-
-&lt;script&gt;
-var Results= {#data_set#};
-
-exportToCsv = function(file_name) {
-  var CsvString = "";
-  Results.forEach(function(RowItem, RowIndex) {
-    RowItem.forEach(function(ColItem, ColIndex) {
-             CsvString += ColItem;
-             if( ColIndex &lt; RowItem.length - 1){
-                 CsvString += ',';
-                } 
-    });
-    CsvString += "\r\n";
-  });
-  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
- var x = document.createElement("A");
- x.setAttribute("href", CsvString );
- x.setAttribute("download","data_set.csv");
- document.body.appendChild(x);
- x.click();
-}
-&lt;/script&gt;</text>
+&lt;p&gt;[[feedback:prt4]]&lt;/p&gt;</text>
     </questiontext>
     <generalfeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3" unique-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3">
       <text original-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3-1" unique-id="source-stack-default-for-stats-gold-technical-skills-filtering-to-clean-xml-1-1-3-1"/>
@@ -228,7 +205,8 @@ for factor in factor_info do block(
 );
 
 /* Rotate the data to be given in rows rather than columns of each factor, also add header row */
-data_set: append([factor_names], makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows));
+data: makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows);
+data_set: append([factor_names], data);
 
 
 /* ------------- OTHER QUESTION VARIABLES */

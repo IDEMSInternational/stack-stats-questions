@@ -5,7 +5,8 @@
             <xi:include href="./docinfo.ptx" />
 
             <book xml:id="stats-gold">
-                <title>Stats Gold</title>
+                <title>Stats STACK questions</title>
+                <subtitle>A collection of STACK questions for statistics</subtitle>
 
                 <!-- Include frontmatter -->
                 <xi:include href="./frontmatter.ptx" />
