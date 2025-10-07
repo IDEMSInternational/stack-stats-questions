@@ -1,0 +1,9 @@
+exclude:
+  - generate.py
+  - README.md
+  - source
+  - publication
+
+include:
+  - _static
+  - docs/_static
