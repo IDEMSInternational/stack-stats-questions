@@ -14,7 +14,7 @@
 
 <p>The task is to use the data below to answer the following questions <strong>using pivot tables</strong> to investigate the data.</p>
 
-<p><button onclick="exportToCsv()">Download Data</button></p>
+<p><a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,factor_names)@}[[/textdownload]]">Download Data</a></p>
 
 <br>
 <p>Note: Leave your answer in fraction form</p>
@@ -28,30 +28,7 @@
 
 <p>3. What's the proportion of individuals who are {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} and planting Variety {@quest_var@}</p>
 <p>[[input:ans3]] [[validation:ans3]]</p>
-<p>[[feedback:prt3]]</p>
-
-<script>
-var Results= {#data_set#};
-
-exportToCsv = function(file_name) {
-  var CsvString = "";
-  Results.forEach(function(RowItem, RowIndex) {
-    RowItem.forEach(function(ColItem, ColIndex) {
-             CsvString += ColItem;
-             if( ColIndex < RowItem.length - 1){
-                 CsvString += ',';
-                } 
-    });
-    CsvString += "\r\n";
-  });
-  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
- var x = document.createElement("A");
- x.setAttribute("href", CsvString );
- x.setAttribute("download","data_set.csv");
- document.body.appendChild(x);
- x.click();
-}
-</script>]]></text>
+<p>[[feedback:prt3]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text/>
@@ -125,9 +102,10 @@ for factor in factor_info do block(
 );
 
 /* Rotate the data to be given in rows rather than columns of each factor, also add header row */
+data: makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows);
 data_set: append(
     [factor_names], 
-    makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows)
+    data
 );
 
 /* ------------- END OF DATA SET GENERATION */

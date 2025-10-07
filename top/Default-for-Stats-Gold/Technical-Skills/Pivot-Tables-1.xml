@@ -9,7 +9,7 @@
 
 <p>The task is to use the data below to answer the following questions <strong>using pivot tables</strong> to investigate how the treatments affect the yield.</p>
 
-<p><button onclick="exportToCsv()">Download Data</button></p>
+<p><a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data_set,header)@}[[/textdownload]]">Download Data</a></p>
 
 <br>
 
@@ -23,30 +23,7 @@
 
 <p>3. What is the {@quest_expr3@} yield for Variety \(1\) when Fertiliser \(1\) is used? Give your answer to \(2\text{dp}\)</p>
 <p>[[input:ans3]] [[validation:ans3]]</p>
-<p>[[feedback:prt3]]</p>
-
-<script>
-var Results= {#data_set#};
-
-exportToCsv = function(file_name) {
-  var CsvString = "";
-  Results.forEach(function(RowItem, RowIndex) {
-    RowItem.forEach(function(ColItem, ColIndex) {
-             CsvString += ColItem;
-             if( ColIndex < RowItem.length - 1){
-                 CsvString += ',';
-                } 
-    });
-    CsvString += "\r\n";
-  });
-  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
- var x = document.createElement("A");
- x.setAttribute("href", CsvString );
- x.setAttribute("download","data_set.csv");
- document.body.appendChild(x);
- x.click();
-}
-</script>]]></text>
+<p>[[feedback:prt3]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>Full details on how to create and use Pivot tables can be found <a href="https://docs.google.com/document/d/1Q349NXt0AkStgVHHVkkDGBZVS-KT5Gl_IcdnSTemhEQ/edit?usp=sharing"  target="_blank">here</a>.]]></text>
@@ -136,8 +113,9 @@ for i: 1 thru number_rows do (
 );
 
 /* Add headers row to data set */
+header: append(factor_names, ["Replication", "Yield"]);
 data_set:append(
-    [append(factor_names, ["Replication", "Yield"])],
+    [header],
     data_set
 );
 
