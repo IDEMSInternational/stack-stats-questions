@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Edit a boxplot to match a histogram</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Move the qualrtiles and median lines in the box plot so that it is representative of the data displayed in the histogram below.</p>
+
+[[jsxgraph input-ref-ans1="sR1" input-ref-ans2="sR2" input-ref-ans3="sR3" input-ref-ans4="sR4" input-ref-ans5="sR5" input-ref-ans6="sR6" input-ref-ans7="sR7" input-ref-ans8="sR8"]]
+
+function plot_histogram(data, numbars, board) {
+
+  var numel = data.length;
+  var min_bound = Math.floor(Math.min.apply(Math, data));
+  var max_bound = Math.ceil(Math.max.apply(Math, data));
+  var range = max_bound - min_bound;
+
+  var numbars = Math.abs(Math.ceil(numbars));
+
+  if (numbars == 0) {
+    numbars = 1;
+  }
+  var barwidth = range / numbars;
+
+  //var tot = data.reduce((a, b) => a + b, 0);
+
+
+  var relfreq = [];
+  for (var b = 0; b < numbars; b++) {
+    var data_in_bar = data.filter(function(d) {
+      if (b == 0) {
+        return (d >= min_bound + b * barwidth) && (d <= min_bound + (b + 1) * barwidth)
+      } else {
+        return (d > min_bound + b * barwidth) && (d <= min_bound + (b + 1) * barwidth)
+      }
+    });
+    relfreq.push(data_in_bar.length)
+  }
+
+
+
+  var ymax = Math.max.apply(Math, relfreq) / barwidth;
+
+
+  board.setBoundingBox([min_bound - 0.2 * min_bound, ymax * 1.25, max_bound * 1.2, -(ymax * 0.2)], false);
+
+  // create axes
+  var origin = board.create('point', [min_bound - 0.1 * min_bound, 0], {
+    face: '',
+    visible: false,
+    size: 2,
+    name: '',
+    fixed: true
+  });
+  var y_end = board.create('point', [min_bound - 0.1 * min_bound, ymax * 1.1], {
+    face: '',
+    visible: false,
+    size: 2,
+    name: '',
+    fixed: true
+  });
+  var x_end = board.create('point', [max_bound * 1.1, 0], {
+    face: '',
+    visible: false,
+    size: 2,
+    name: '',
+    fixed: true
+  });
+  var x_axis = board.create('segment', [origin, x_end], {
+    strokeColor: 'black',
+    strokeWidth: 1
+  });
+  var y_axis = board.create('segment', [origin, y_end], {
+    strokeColor: 'black',
+    strokeWidth: 1
+  });
+
+  var Lx = Math.ceil(range / 3);
+  var x_tick_pos = [min_bound, min_bound + Lx, min_bound + 2 * Lx, min_bound + 3 * Lx];
+  var x_tick_label = [min_bound, min_bound + Lx, min_bound + 2 * Lx, min_bound + 3 * Lx];
+  x_tick_pos.forEach(function(el, index, arr) {
+    arr[index] = el - 0.9 * min_bound
+  });
+  var t_x = board.create('ticks', [x_axis, x_tick_pos], {
+    drawLabels: true,
+    labels: x_tick_label,
+    minorTicks: 0,
+    label: {
+      autoPosition: true,
+      offset: [-7.5, -12.5]
+    }
+  });
+
+  var Ly = Math.ceil(ymax / 3);
+  var y_tick_pos = [0, Ly, 2 * Ly, Math.ceil(ymax)];
+
+  var t_y = board.create('ticks', [y_axis, y_tick_pos], {
+    labels: y_tick_pos,
+    drawLabels: true,
+    minorTicks: 0,
+    label: {
+      autoPosition: true,
+      offset: [-25, 0]
+    }
+  });
+
+  //plot histogram
+  for (var i = 0; i < numbars; i++) {
+
+    var p0 = board.create('point', [min_bound + (i) * barwidth, 0], {
+      face: '',
+      visible: false,
+      size: 2,
+      name: '',
+      fixed: true
+
+    });
+
+    var p1 = board.create('point', [min_bound + (i) * barwidth, relfreq[i] / barwidth], {
+      face: '',
+      visible: false,
+      size: 2,
+      name: '',
+      fixed: true
+
+    });
+
+    var p2 = board.create('point', [min_bound + (i + 1) * barwidth, 0], {
+      face: '',
+      visible: false,
+      size: 2,
+      name: '',
+      fixed: true
+
+    });
+
+    var p3 = board.create('point', [min_bound + (i + 1) * barwidth, relfreq[i] / barwidth], {
+      face: '',
+      visible: false,
+      size: 2,
+      name: '',
+      fixed: true
+
+    });
+    board.create('polygon', [p0, p1, p3, p2], {
+      borders: {
+        strokeColor: 'blue'
+      },
+      fillColor: ''
+    })
+  }
+return ymax;
+}
+
+var data = {#dat#};
+
+var numbars = {#numbars#};
+
+var board = JXG.JSXGraph.initBoard(divid, {
+  axis: false,
+  keepaspectratio: false,
+  showCopyright: false,
+  showNavigation: false,
+  pan: {enable: false}
+});
+
+var maxy = plot_histogram(data, numbars, board);
+
+
+// Creating box plot
+
+// Define parameters from histogram for box plot
+var min_x = Math.floor(Math.min.apply(Math, data));
+var max_x = Math.ceil(Math.max.apply(Math, data));
+var max_y = maxy*1.2;
+var mid_y = maxy*1.15;
+var min_y = maxy*1.1;
+var lq_x = min_x + (max_x - min_x)/4;
+var med_x = min_x + (max_x - min_x)/2;
+var uq_x = min_x + 3*(max_x - min_x)/4;
+
+//create upper and lower bounds for the box plot
+var bot_line = board.create('line', [[0, min_y], [1, min_y]], {
+  straightFirst: true,
+  straightLast: true,
+  strokeWidth: 2,
+  visible: false,
+  fixed: true
+});
+var top_line = board.create('line', [[0, max_y], [1, max_y]], {
+  straightFirst: true,
+  straightLast: true,
+  strokeWidth: 2,
+  visible: false,
+  fixed: true
+});
+
+
+// --------------lq vertical and left horizontal lines start
+var top_lq = board.create('point', [lq_x, max_y], {
+  name: '',
+  visible: false
+});
+
+var bot_lq = board.create('point', [lq_x, min_y], {
+  name: '',
+  visible: false
+});
+
+var mid_lq = board.create('point', [lq_x, mid_y], {
+  name: '',
+  visible: false
+});
+
+var mid_min = board.create('point', [min_x, mid_y], {
+  name: '',
+  visible: false
+});
+
+var lq_line = board.create('segment', [top_lq, bot_lq], {
+  strokeWidth: 2,
+  visible: true
+});
+
+var mid_line_left = board.create('segment', [mid_lq, mid_min], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+
+lq_line.on('drag', function() {
+  bot_lq.moveTo([bot_lq.X(), min_y]);
+  top_lq.moveTo([top_lq.X(), max_y]);
+  mid_lq.moveTo([top_lq.X(), mid_y]);
+});
+// --------------lq vertical and left horizontal lines end
+
+// --------------med vertical line start
+var top_med = board.create('point', [med_x, max_y], {
+  name: '',
+  visible: false
+});
+
+var bot_med = board.create('point', [med_x, min_y], {
+  name: '',
+  visible: false
+});
+
+var med_line = board.create('segment', [top_med, bot_med], {
+  strokeWidth: 2,
+  visible: true
+});
+
+med_line.on('drag', function() {
+  bot_med.moveTo([bot_med.X(), min_y]);
+  top_med.moveTo([top_med.X(), max_y]);
+});
+// --------------med vertical line end
+
+// --------------uq vertical and right horizontal lines start
+var top_uq = board.create('point', [uq_x, max_y], {
+  name: '',
+  visible: false
+});
+
+var bot_uq = board.create('point', [uq_x, min_y], {
+  name: '',
+  visible: false
+});
+
+var uq_line = board.create('segment', [top_uq, bot_uq], {
+  strokeWidth: 2,
+  visible: true
+});
+
+var mid_uq = board.create('point', [uq_x, mid_y], {
+  name: '',
+  visible: false
+});
+
+var mid_max = board.create('point', [max_x, mid_y], {
+  name: '',
+  visible: false
+});
+
+var mid_line_right = board.create('segment', [mid_uq, mid_max], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+uq_line.on('drag', function() {
+  bot_uq.moveTo([bot_uq.X(), min_y]);
+  top_uq.moveTo([top_uq.X(), max_y]);
+  mid_uq.moveTo([top_uq.X(), mid_y]);
+});
+// --------------uq vertical and right horizontal lines end
+
+
+
+
+
+// --------------top horizontal line start
+var top_line = board.create('segment', [top_lq, top_uq], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+top_uq.on('drag', function() {
+  this.moveTo([this.X(), max_y]);
+  top_lq.moveTo([this.X(), max_y]);
+});
+top_lq.on('drag', function() {
+  top_uq.moveTo([this.X(), max_y]);
+  this.moveTo([this.X(), max_y]);
+});
+top_line.on('drag', function() {
+  top_uq.moveTo([top_uq.X(), max_y]);
+  top_lq.moveTo([top_lq.X(), max_y]);
+});
+// --------------top horizontal line end
+
+// --------------bottom horizontal line start
+var bot_line = board.create('segment', [bot_lq, bot_uq], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+bot_uq.on('drag', function() {
+  this.moveTo([this.X(), max_y]);
+  bot_lq.moveTo([this.X(), max_y]);
+});
+bot_lq.on('drag', function() {
+  bot_uq.moveTo([this.X(), max_y]);
+  this.moveTo([this.X(), max_y]);
+});
+bot_line.on('drag', function() {
+  bot_uq.moveTo([bot_uq.X(), min_y]);
+  bot_lq.moveTo([bot_lq.X(), mmin_y]);
+});
+// --------------top horizontal line end
+
+
+
+
+
+// max and min lines
+var min_line = board.create('segment', [[min_x,min_y], [min_x,max_y]], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+var max_line = board.create('segment', [[max_x,min_y], [max_x,max_y]], {
+  strokeWidth: 2,
+  visible: true,
+  fixed: true
+});
+
+
+
+
+
+
+
+/* Set answers from state of graph */
+stack_jxg.bind_point(sR1,top_lq);
+stack_jxg.bind_point(sR2,bot_lq);
+stack_jxg.bind_point(sR3,top_med);
+stack_jxg.bind_point(sR4,bot_med);
+stack_jxg.bind_point(sR5,top_uq);
+stack_jxg.bind_point(sR6,bot_uq);
+stack_jxg.bind_point(sR7,mid_lq);
+stack_jxg.bind_point(sR8,mid_uq);
+board.unsuspendUpdate();
+
+
+
+[[/jsxgraph]]
+
+
+
+<p style="display:none;">[[input:ans1]] [[input:ans2]] [[input:ans3]] [[input:ans4]] [[input:ans5]] [[input:ans6]] [[input:ans7]] [[input:ans8]] [[validation:ans1]] [[validation:ans2]] [[validation:ans3]] [[validation:ans4]] [[validation:ans5]] [[validation:ans6]] [[validation:ans7]] [[validation:ans8]]</p>
+<p>[[feedback:prt2]] [[feedback:prt1]] [[feedback:prt3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* bounds for data */
+dat_min: rand(101)+100;
+dat_max: dat_min+30+rand(21);
+
+/* Data size */
+n: rand(500)+500;
+
+/* Number of bars in histogram */
+numbars: 30;
+
+/* Selecting Data Type: 1=Normal, 2=Gamma Left, 3=Gamma Right */
+type: rand([1,2,3]);
+
+/* Define basic data set */
+dat: if type = 1 then makelist(float(quantile_normal(rand(1.0),0,1)),i,1,n) else makelist(float(quantile_gamma(rand(1.0),2,20)),i,1,n);
+
+/* Set skew if Gamma */
+dat: if type = 3 then lmax(dat)-lmin(dat)+2-dat else dat;
+
+/* Place data between the bounds */
+dat: ((dat-lmin(dat))/(lmax(dat)-lmin(dat)))*(dat_max-dat_min)+dat_min;
+
+/* Range of data */
+range: dat_max-dat_min;
+
+/* Answers */
+med: median(dat);
+lq: quantile(dat,1/4);
+uq: quantile(dat,3/4);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>Type = {@type@}, Median = {@med@}, LQ = {@lq@}, UQ = {@uq@}</p>]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>lq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>lq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>med</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>med</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>uq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>uq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>lq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>algebraic</type>
+      <tans>uq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[opt_1:0.05*range;
+opt_2:0.1*range;
+large_ans:if ans3[1]>=med then 1 else 0;
+large_ans_text:if ans3[1]>=med then "large" else "small";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans3[1]</sans>
+        <tans>med</tans>
+        <testoptions>opt_1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Well done, your estimate for the median is close enough.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans3[1]</sans>
+        <tans>med</tans>
+        <testoptions>opt_2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate for the median is almost close enough, it's a bit too {@large_ans_text@}.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Unfortunately your estimate of the median is not close enough to a correct estimate.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>large_ans</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate is too large.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your estimate is too small.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[opt_1:0.05*range;
+opt_2:0.1*range;
+large_ans:if ans1[1]>=lq then 1 else 0;
+large_ans_text:if ans1[1]>=lq then "large" else "small";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1[1]</sans>
+        <tans>lq</tans>
+        <testoptions>opt_1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Well done, your estimate for the lower quartile is close enough.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1[1]</sans>
+        <tans>lq</tans>
+        <testoptions>opt_2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate for the lower quartile is almost close enough, it's a bit too {@large_ans_text@}.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Unfortunately your estimate of the lower quartile is not close enough to a correct estimate.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>large_ans</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate is too large.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your estimate is too small.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[opt_1:0.05*range;
+opt_2:0.1*range;
+large_ans:if ans5[1]>=uq then 1 else 0;
+large_ans_text:if ans5[1]>=uq then "large" else "small";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans5[1]</sans>
+        <tans>uq</tans>
+        <testoptions>opt_1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Well done, your estimate for the upper quartile is close enough.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans5[1]</sans>
+        <tans>uq</tans>
+        <testoptions>opt_2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate for the upper quartile is almost close enough, it's a bit too {@large_ans_text@}.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Unfortunately your estimate of the upper quartile is not close enough to a correct estimate.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>large_ans</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your estimate is too large.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your estimate is too small.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>77384836</deployedseed>
+    <deployedseed>235567728</deployedseed>
+    <deployedseed>1589206665</deployedseed>
+    <deployedseed>767841902</deployedseed>
+    <deployedseed>1092264646</deployedseed>
+    <deployedseed>309265945</deployedseed>
+    <deployedseed>970716851</deployedseed>
+    <deployedseed>1115168224</deployedseed>
+    <deployedseed>2117995222</deployedseed>
+    <deployedseed>16411044</deployedseed>
+    <deployedseed>1431488676</deployedseed>
+    <deployedseed>824330149</deployedseed>
+    <deployedseed>1190443805</deployedseed>
+    <deployedseed>243149845</deployedseed>
+    <deployedseed>2107269049</deployedseed>
+    <deployedseed>835664865</deployedseed>
+    <deployedseed>1519590387</deployedseed>
+    <deployedseed>485579999</deployedseed>
+    <deployedseed>152679216</deployedseed>
+    <deployedseed>930324489</deployedseed>
+    <deployedseed>1935418237</deployedseed>
+    <deployedseed>453203050</deployedseed>
+    <deployedseed>1327552098</deployedseed>
+    <deployedseed>1420484212</deployedseed>
+    <deployedseed>458531632</deployedseed>
+    <deployedseed>1812056681</deployedseed>
+    <deployedseed>594436593</deployedseed>
+    <deployedseed>1220322723</deployedseed>
+    <deployedseed>1087557332</deployedseed>
+    <deployedseed>361407698</deployedseed>
+    <deployedseed>651252019</deployedseed>
+    <deployedseed>1752621535</deployedseed>
+    <deployedseed>1337254718</deployedseed>
+    <deployedseed>1398461573</deployedseed>
+    <deployedseed>1369267218</deployedseed>
+    <deployedseed>193444948</deployedseed>
+    <deployedseed>1884462108</deployedseed>
+    <deployedseed>1167804306</deployedseed>
+    <deployedseed>1647681732</deployedseed>
+    <deployedseed>1265122426</deployedseed>
+    <deployedseed>1113491355</deployedseed>
+    <deployedseed>1610693537</deployedseed>
+    <deployedseed>1785573104</deployedseed>
+    <deployedseed>2030037368</deployedseed>
+    <deployedseed>1187620484</deployedseed>
+    <deployedseed>192368422</deployedseed>
+    <deployedseed>1636864513</deployedseed>
+    <deployedseed>1453794362</deployedseed>
+    <deployedseed>202149253</deployedseed>
+    <deployedseed>587550808</deployedseed>
+    <deployedseed>1370276933</deployedseed>
+    <deployedseed>1939551163</deployedseed>
+    <deployedseed>2048641242</deployedseed>
+    <deployedseed>13384177</deployedseed>
+    <deployedseed>1333548865</deployedseed>
+    <deployedseed>1389042349</deployedseed>
+    <deployedseed>1896602370</deployedseed>
+    <deployedseed>548771737</deployedseed>
+    <deployedseed>993113194</deployedseed>
+    <deployedseed>1984043286</deployedseed>
+    <deployedseed>2067058933</deployedseed>
+    <deployedseed>270564681</deployedseed>
+    <deployedseed>1001345827</deployedseed>
+    <deployedseed>707949520</deployedseed>
+    <deployedseed>1434884362</deployedseed>
+    <deployedseed>1073417388</deployedseed>
+    <deployedseed>354622202</deployedseed>
+    <deployedseed>1195281229</deployedseed>
+    <deployedseed>1225492636</deployedseed>
+    <deployedseed>1519547855</deployedseed>
+    <deployedseed>291239905</deployedseed>
+    <deployedseed>1550307927</deployedseed>
+    <deployedseed>1107902666</deployedseed>
+    <deployedseed>1025552944</deployedseed>
+    <deployedseed>1205263867</deployedseed>
+    <deployedseed>1390150655</deployedseed>
+    <deployedseed>1438702232</deployedseed>
+    <deployedseed>1000667137</deployedseed>
+    <deployedseed>1937094549</deployedseed>
+    <deployedseed>1450864969</deployedseed>
+    <deployedseed>1533160264</deployedseed>
+    <deployedseed>1973522587</deployedseed>
+    <deployedseed>228822236</deployedseed>
+    <deployedseed>532624089</deployedseed>
+    <deployedseed>132889023</deployedseed>
+    <deployedseed>1250938820</deployedseed>
+    <deployedseed>753358693</deployedseed>
+    <deployedseed>1897991048</deployedseed>
+    <deployedseed>588362107</deployedseed>
+    <tags>
+      <tag><text>Histogram</text>
+</tag>
+      <tag><text>Box Plot</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

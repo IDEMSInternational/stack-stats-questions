@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Missing Values</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Let's consider a survey conducted with 100 farms to gather information about their crop habits. Each farm was asked three specific questions regarding Maize, Sorghum, and Millet.</p>
+<ol>
+  <li> Did they grow the crop last year?</li>
+  <li>If yes, did the crop succeed enough to be sold?</li>
+  <li>If sold, what was their profit?</li>
+</ol>
+
+<p><button onclick="exportToCsv()">Download Data</button></p>
+
+<br>
+
+<p>Use the data provided to determine:</p>
+<p>1. &nbsp; (a) Which crop was the most profitable <strong>on average</strong>? 
+</p><p style="margin-left:24px">[[input:ans1]] [[validation:ans1]]</p>
+<p style="margin-left:24px">(b) Which one was the least profitable <strong>on average</strong>? 
+</p><p style="margin-left:24px">[[input:ans2]] [[validation:ans2]]</p>
+<p>[[feedback:prt1]]</p>
+
+<br>
+
+<p>2. What is the mean profit for {@q2_crop@}?</p>
+<p>[[input:ans3]] [[validation:ans3]]</p>
+<p>[[feedback:prt3]]</p>
+
+<script>
+var Results;
+fetch("https://raw.githubusercontent.com/IDEMSInternational/wxmaxima-stack/main/data-files/missing_values_1.txt")
+  .then(res => res.json())
+  .then(data => {
+    Results = data;
+   })
+
+exportToCsv = function(file_name) {
+  var CsvString = "";
+  Results.forEach(function(RowItem, RowIndex) {
+    RowItem.forEach(function(ColItem, ColIndex) {
+             CsvString += ColItem;
+             if( ColIndex < RowItem.length - 1){
+                 CsvString += ',';
+                } 
+    });
+    CsvString += "\r\n";
+  });
+  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+ var x = document.createElement("A");
+ x.setAttribute("href", CsvString );
+ x.setAttribute("download","data_set.csv");
+ document.body.appendChild(x);
+ x.click();
+}
+</script>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ma_1: [["Sorghum", false], ["Millet", true], ["Maize", false]];
+ma_2: [["Sorghum", true], ["Millet", false], ["Maize", false]];
+
+q2_crop: rand(["Maize", "Sorghum", "Millet"]); 
+ta_3: if q2_crop="Maize" then 78.17708 elseif q2_crop="Sorghum" then 66.15116 elseif q2_crop="Millet" then 90.45833;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>Use the data provided to determine:</p>
+<p>1a. Which crop was the most profitable? = Sorghum</p>
+<p>1b. Which one was the least profitable? = Millet</p>
+<p>2. What is the mean profit for {@q2_crop@}? = {@ta_3@}</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[<p id="author">Mary Sayuni</p>
+<p id="concept">https://docs.google.com/document/d/1rByNEf43H7gNmyYm2Ez_O5pNMIFZPVzd0JTynd9a11M/edit#heading=h.wvpxq8elfr9z</p>
+<p id="reviewer">Dan Kelly</p>
+<p id="description"></p>]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ma_1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ma_2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta_3</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[node3_test: if ans1="Sorghum" and ans2="Millet" then 1 else 0;
+node4_test: if ans1="Sorghum" and ans2="Maize" then 1 else 0;
+node5_test: if ans1="Maize" and ans2="Millet" then 1 else 0;
+node6_test: if ans1="Maize" and ans2="Sorghum" then 1 else 0;
+node7_test: if ans1="Millet" and ans2="Maize" then 1 else 0;
+node8_test: if ans1="Millet" and ans2="Sorghum" then 1 else 0;]]></text>
+      </feedbackvariables>
+      <node>
+        <name>2</name>
+        <description>gives sorghum and millet</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node3_test</sans>
+        <tans>1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that all of the missing values have been ignored in this question. However, we are looking at the most profitable crop. There are some crops which were grown which were not sold. Arguably the missing values in the profit columns therefore <b>do</b> have a value that we can give them.</p>
+
+<p>Alternatively, to get this answer it is possible that you have replaced the missing values with a different value, such as the mean. What value have you replaced them with? Does that make sense in this context? The mean, for example, might not make sense here. It is not that the profit is unknown, it is that there was no money made at all.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>gives sorghum and maize</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node4_test</sans>
+        <tans>1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you have correctly identified to fill in the missing values. However, check the value that you are using to replace the missing values with. Does that make sense in this context? It is not that the profit is unknown, it is that there was no money made at all.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description>gives maize and millet</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node5_test</sans>
+        <tans>1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that one of two things has happened here. We recommend looking at the averages not the sum, this is due to a difference in group sizes.</p><p>Alternatively, if you are looking at averages then it is great you have identified that the missing values in the profit columns <b>do</b> have a value that we can give them. However, it is incorrect that <b>all</b> missing values have a value we can estimate. Some missing values we may simply not know at all!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>gives maize and sorghum</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node6_test</sans>
+        <tans>1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you have correctly identified to fill in the missing values. However, check the value that you are using to replace the missing values with. Does that make sense in this context? It is not that the profit is unknown, it is that there was no money made at all.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>6</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description>gives millet and maize</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node7_test</sans>
+        <tans>1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you have correctly identified to fill in the missing values. However, check the value that you are using to replace the missing values with. Does that make sense in this context? It is not that the profit is unknown, it is that there was no money made at all.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>7</falsenextnode>
+        <falseanswernote>prt1-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description>gives millet and sorghum</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node8_test</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you have replaced some of the missing values, but not all of them. If an individual grew a crop, but were unable to sell, they arguably do not have a profit so their missing values do have a value we can give them.
+If instead an individual never grew a crop, we can ignore their missing values.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>corr_ans_list: [decimalplaces(ta_3,0), decimalplaces(ta_3,1), decimalplaces(ta_3,2), decimalplaces(ta_3,3), decimalplaces(ta_3,4), ta_3];
+node1_test: if member(ans3, corr_ans_list) then 1 else 0;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>check correct answer, possibly rounded</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>node1_test</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Great! The unprofitable crops have been given a profit of zero since they were grown but generated no income.</p>
+
+<p>The crops that were never grown, so had no chance to generate income, have been set as missing. This is correct!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have correctly identified which missing values should be replaced. However, the value that you have replaced them with seems to be incorrect.</p>
+
+<p>Check what you have replaced the missing values with, does that make sense in this context? It is not that the profit is unknown, it is that there was no money made at all from some crops.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>766382234</deployedseed>
+    <deployedseed>1385186126</deployedseed>
+    <deployedseed>659133753</deployedseed>
+    <deployedseed>1821788129</deployedseed>
+    <deployedseed>1521746292</deployedseed>
+    <deployedseed>1648618228</deployedseed>
+    <deployedseed>1454693563</deployedseed>
+    <deployedseed>1625344872</deployedseed>
+    <deployedseed>1944660833</deployedseed>
+    <deployedseed>1777464209</deployedseed>
+    <deployedseed>696566202</deployedseed>
+    <deployedseed>1993916139</deployedseed>
+    <deployedseed>1169651549</deployedseed>
+    <deployedseed>1210017344</deployedseed>
+    <deployedseed>1420680205</deployedseed>
+    <deployedseed>883759535</deployedseed>
+    <deployedseed>2130767947</deployedseed>
+    <deployedseed>1804150212</deployedseed>
+    <deployedseed>883239853</deployedseed>
+    <deployedseed>996318757</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>first(mcq_correct(ma_1))</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ma_2))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta_3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-8-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

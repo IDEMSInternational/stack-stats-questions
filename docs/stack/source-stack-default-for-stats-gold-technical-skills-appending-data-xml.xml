@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+                    <quiz xmlns:xi="http://www.w3.org/2001/XInclude" xml:base="../../stack/Default-for-Stats-Gold/Technical-Skills/Appending-Data.xml" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1">
+  <question type="stack" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1">
+    <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-1-1">Appending Data</text>
+    </name>
+    <questiontext format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-2-1">&lt;p&gt;Rainfall data were taken in two regions in Ghana: Elamat and Palstond. However, the data has been collected into two data frames: one contains data from 1990-1999, and the other from 2000-2016.&lt;/p&gt;
+
+&lt;p&gt;The former data set contains the station name, the date, year, rainfall (mm), minimum temperature (Celsius), and maximum temperature (Celsius).&lt;/p&gt;
+
+&lt;p&gt;The latter data set contains the station name, date, year, rainfall (cm), minimum temperature (Celsius), and maximum temperature (Celsius), and hours of sunshine.&lt;/p&gt;
+
+&lt;p&gt;The task is to combine the data sets and answer the following questions:
+&lt;br&gt;&lt;em&gt;(Note that this is “made up” data)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;button onclick="exportToCsv1990()"&gt;Download Data: 1990-1999&lt;/button&gt;&lt;/p&gt;
+&lt;p&gt;&lt;button onclick="exportToCsv2000()"&gt;Download Data: 2000-2016&lt;/button&gt;&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p&gt;1. Which year had the least overall rainfall?&lt;/p&gt;
+&lt;p&gt;[[input:ans1]] [[validation:ans1]]&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p&gt;2. Which region had more rainfall between 1990-2016 (inclusive)?&lt;/p&gt;
+&lt;p&gt;[[input:ans2]] [[validation:ans2]]&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p&gt;3. How much rainfall was there in total across both stations in 2016 in \(mm\)?&lt;/p&gt;
+&lt;br&gt;&lt;em&gt;Give your answer to 2 decimal places.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;[[input:ans3]] [[validation:ans3]]&lt;/p&gt;
+&lt;p&gt;[[feedback:prt1]]&lt;/p&gt;
+
+&lt;script&gt;
+var Results1990;
+var Results2000;
+
+fetch("https://raw.githubusercontent.com/IDEMSInternational/wxmaxima-stack/main/data-files/ghana-1990-1999.txt")
+  .then(res =&gt; res.json())
+  .then(data =&gt; {
+    Results1990 = data;
+   })
+fetch("https://raw.githubusercontent.com/IDEMSInternational/wxmaxima-stack/main/data-files/ghana-2000-2016.txt")
+  .then(res =&gt; res.json())
+  .then(data =&gt; {
+    Results2000 = data;
+   })
+
+exportToCsv1990 = function(file_name) {
+  var CsvString = "";
+  Results1990.forEach(function(RowItem, RowIndex) {
+    RowItem.forEach(function(ColItem, ColIndex) {
+             CsvString += ColItem;
+             if( ColIndex &lt; RowItem.length - 1){
+                 CsvString += ',';
+                } 
+    });
+    CsvString += "\r\n";
+  });
+  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+ var x = document.createElement("A");
+ x.setAttribute("href", CsvString );
+ x.setAttribute("download","data_set.csv");
+ document.body.appendChild(x);
+ x.click();
+}
+
+exportToCsv2000 = function(file_name) {
+  var CsvString = "";
+  Results2000.forEach(function(RowItem, RowIndex) {
+    RowItem.forEach(function(ColItem, ColIndex) {
+             CsvString += ColItem;
+             if( ColIndex &lt; RowItem.length - 1){
+                 CsvString += ',';
+                } 
+    });
+    CsvString += "\r\n";
+  });
+  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+ var x = document.createElement("A");
+ x.setAttribute("href", CsvString );
+ x.setAttribute("download","data_set.csv");
+ document.body.appendChild(x);
+ x.click();
+}
+&lt;/script&gt;</text>
+    </questiontext>
+    <generalfeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-3-1"/>
+    </generalfeedback>
+    <defaultgrade original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-4">1</defaultgrade>
+    <penalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-5">0.1</penalty>
+    <hidden original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-6">0</hidden>
+    <idnumber original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-7"/>
+    <stackversion original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-8-1">2025073100</text>
+    </stackversion>
+    <questionvariables original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-9-1">ma1: [
+  [1990, false],  [1991, false],  [1992, true],  [1993, false],
+  [1994, false],  [1995, false],  [1996, false],  [1997, false],
+  [1998, false],  [1999, false],  [2000, false],  [2001, false],
+  [2002, false],  [2003, false],  [2004, false],  [2005, false],
+  [2006, false],  [2007, false],  [2008, false],  [2009, false],
+  [2010, false],  [2011, false],  [2012, false],  [2013, false],
+  [2014, false],  [2015, false],  [2016, false]
+];
+
+ma2: [
+  ["Palstond", false],
+  ["Elamat", true],
+  ["Unknown", false]
+];
+
+ta3: 1869.80;</text>
+    </questionvariables>
+    <specificfeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-10-1"/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-11-1"/>
+    </questionnote>
+    <questiondescription format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-12-1"/>
+    </questiondescription>
+    <questionsimplify original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-13">1</questionsimplify>
+    <assumepositive original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-14">0</assumepositive>
+    <assumereal original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-15">0</assumereal>
+    <prtcorrect format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-16-1">&lt;span style="font-size: 1.5em; color:green;"&gt;&lt;i class="fa fa-check"&gt;&lt;/i&gt;&lt;/span&gt; Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-17-1">&lt;span style="font-size: 1.5em; color:orange;"&gt;&lt;i class="fa fa-adjust"&gt;&lt;/i&gt;&lt;/span&gt; Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18">
+      <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-18-1">&lt;span style="font-size: 1.5em; color:red;"&gt;&lt;i class="fa fa-times"&gt;&lt;/i&gt;&lt;/span&gt; Incorrect answer.</text>
+    </prtincorrect>
+    <decimals original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-19">.</decimals>
+    <scientificnotation original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-20" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-20" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-20">*10</scientificnotation>
+    <multiplicationsign original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-21" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-21" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-21">none</multiplicationsign>
+    <sqrtsign original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-22" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-22" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-22">1</sqrtsign>
+    <complexno original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-23" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-23" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-23">i</complexno>
+    <inversetrig original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-24" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-24" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-24">cos-1</inversetrig>
+    <logicsymbol original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-25" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-25" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-25">lang</logicsymbol>
+    <matrixparens original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-26" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-26" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-26">[</matrixparens>
+    <isbroken original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-27" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-27" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-27">0</isbroken>
+    <variantsselectionseed original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-28" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-28" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-28"/>
+    <input original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29">
+      <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-1">ans1</name>
+      <type original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-2">dropdown</type>
+      <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-3">ma1</tans>
+      <boxsize original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-4">15</boxsize>
+      <strictsyntax original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-5">1</strictsyntax>
+      <insertstars original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-6">0</insertstars>
+      <syntaxhint original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-7"/>
+      <syntaxattribute original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-8">0</syntaxattribute>
+      <forbidwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-9"/>
+      <allowwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-10"/>
+      <forbidfloat original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-11">1</forbidfloat>
+      <requirelowestterms original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-12">0</requirelowestterms>
+      <checkanswertype original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-13">0</checkanswertype>
+      <mustverify original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-14">0</mustverify>
+      <showvalidation original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-15">0</showvalidation>
+      <options original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-29-16"/>
+    </input>
+    <input original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30">
+      <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-1">ans2</name>
+      <type original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-2">dropdown</type>
+      <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-3">ma2</tans>
+      <boxsize original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-4">15</boxsize>
+      <strictsyntax original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-5">1</strictsyntax>
+      <insertstars original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-6">0</insertstars>
+      <syntaxhint original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-7"/>
+      <syntaxattribute original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-8">0</syntaxattribute>
+      <forbidwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-9"/>
+      <allowwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-10"/>
+      <forbidfloat original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-11">1</forbidfloat>
+      <requirelowestterms original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-12">0</requirelowestterms>
+      <checkanswertype original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-13">0</checkanswertype>
+      <mustverify original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-14">0</mustverify>
+      <showvalidation original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-15">0</showvalidation>
+      <options original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-30-16"/>
+    </input>
+    <input original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31">
+      <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-1">ans3</name>
+      <type original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-2">algebraic</type>
+      <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-3">ta3</tans>
+      <boxsize original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-4">15</boxsize>
+      <strictsyntax original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-5">1</strictsyntax>
+      <insertstars original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-6">0</insertstars>
+      <syntaxhint original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-7"/>
+      <syntaxattribute original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-8">0</syntaxattribute>
+      <forbidwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-9"/>
+      <allowwords original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-10"/>
+      <forbidfloat original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-11">0</forbidfloat>
+      <requirelowestterms original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-12">0</requirelowestterms>
+      <checkanswertype original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-13">0</checkanswertype>
+      <mustverify original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-14">1</mustverify>
+      <showvalidation original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-15">3</showvalidation>
+      <options original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-31-16"/>
+    </input>
+    <prt original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32">
+      <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-1">prt1</name>
+      <value original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-2">1.0000000</value>
+      <autosimplify original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-3">1</autosimplify>
+      <feedbackstyle original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-4">1</feedbackstyle>
+      <feedbackvariables original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5">
+        <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-5-1">/* node 1: check answers correct */
+node1_test: if ans1=1992 and ans2="Elamat" and ans3=1869.80 then 1 else 0;
+
+/* node 2: fails to compare the units in each question */
+node2_test: if ans1=2013 and ans2="Palstond" and ans3=186.98 then 1 else 0;
+
+/* node 3: treats 2000-16 stations as unknown */
+node3_test: if ans1=1992 and member(ans2, ["Palstond", "Unknown"]) and ans3=1869.80 then 1 else 0;
+
+/* node 4: disregards the order of the columns */
+node4_test: if ans1=2013 and ans2="Elamat" and member(ans3, [1869.8, 186.98]) then 1 else 0;
+
+/* node 5: disregards the order of the columns */
+node5_test: if ans1=1992 and ans2="Palstond" and member(ans3, [17567.7, 175677]) then 1 else 0;</text>
+      </feedbackvariables>
+      <node original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-1">0</name>
+        <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-2">check correct answers</description>
+        <answertest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-3">AlgEquiv</answertest>
+        <sans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-4">node1_test</sans>
+        <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-5">1</tans>
+        <testoptions original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-6"/>
+        <quiet original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-7">1</quiet>
+        <truescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-8">=</truescoremode>
+        <truescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-9">1</truescore>
+        <truepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-10"/>
+        <truenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-11">-1</truenextnode>
+        <trueanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-12">prt1-1-T</trueanswernote>
+        <truefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-13-1">&lt;p&gt;Great! It appears that when combining the data sets, you have taken into account the different units used!
+    &lt;br&gt;In addition, it seems that you have correctly appended the data sets together.
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p&gt;There is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-14">=</falsescoremode>
+        <falsescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-15">0</falsescore>
+        <falsepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-16"/>
+        <falsenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-17">1</falsenextnode>
+        <falseanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-18">prt1-1-F</falseanswernote>
+        <falsefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-6-19-1"/>
+        </falsefeedback>
+      </node>
+      <node original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-1">1</name>
+        <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-2">fails to compare the units in each question</description>
+        <answertest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-3">AlgEquiv</answertest>
+        <sans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-4">node2_test</sans>
+        <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-5">1</tans>
+        <testoptions original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-6"/>
+        <quiet original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-7">1</quiet>
+        <truescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-8">+</truescoremode>
+        <truescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-9">0</truescore>
+        <truepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-10"/>
+        <truenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-11">-1</truenextnode>
+        <trueanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-12">prt1-2-T</trueanswernote>
+        <truefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-13-1">&lt;p&gt;It appears that when combining the data sets, you have not taken into account the different units used.
+    &lt;br&gt;Have a look at a plot of your rainfall by year. Does anything seem odd here?
+    &lt;br&gt;We mentioned in the initial question that rainfall is measured in cm in one data set and mm in another.
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p style="margin-left:30px"&gt;&lt;img src="https://github.com/IDEMSInternational/wxmaxima-stack/blob/main/data-files/appending-data-1.jpg?raw=true"&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Try again, but if stuck there is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-14">-</falsescoremode>
+        <falsescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-15">0</falsescore>
+        <falsepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-16"/>
+        <falsenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-17">2</falsenextnode>
+        <falseanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-18">prt1-2-F</falseanswernote>
+        <falsefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-7-19-1"/>
+        </falsefeedback>
+      </node>
+      <node original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-1">2</name>
+        <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-2">treats 2000-16 stations as unknown</description>
+        <answertest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-3">AlgEquiv</answertest>
+        <sans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-4">node3_test</sans>
+        <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-5">1</tans>
+        <testoptions original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-6"/>
+        <quiet original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-7">1</quiet>
+        <truescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-8">+</truescoremode>
+        <truescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-9">0</truescore>
+        <truepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-10"/>
+        <truenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-11">-1</truenextnode>
+        <trueanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-12">prt1-3-T</trueanswernote>
+        <truefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-13-1">&lt;p&gt;It appears that when combining the data sets, you have taken into account the different units used, which is great!
+    &lt;br&gt;However, have a look at a plot of your rainfall by year with station included. Does anything seem odd here?
+    &lt;br&gt;All stations from the year 2000 are unknown. Have a look at the station variable name in the two initial data sets. Can you see why this might have happened when combining the data?
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p style="margin-left:30px"&gt;&lt;img src="https://github.com/IDEMSInternational/wxmaxima-stack/blob/main/data-files/appending-data-2.jpg?raw=true"&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Try again, but if stuck there is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-14">-</falsescoremode>
+        <falsescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-15">0</falsescore>
+        <falsepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-16"/>
+        <falsenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-17">3</falsenextnode>
+        <falseanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-18">prt1-3-F</falseanswernote>
+        <falsefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-8-19-1"/>
+        </falsefeedback>
+      </node>
+      <node original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-1">3</name>
+        <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-2">disregards the order of the columns</description>
+        <answertest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-3">AlgEquiv</answertest>
+        <sans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-4">node4_test</sans>
+        <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-5">1</tans>
+        <testoptions original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-6"/>
+        <quiet original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-7">0</quiet>
+        <truescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-8">+</truescoremode>
+        <truescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-9">0</truescore>
+        <truepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-10"/>
+        <truenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-11">-1</truenextnode>
+        <trueanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-12">prt1-4-T</trueanswernote>
+        <truefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-13-1">&lt;p&gt;It appears that when combining the data sets, you have not taken into account the order of the columns.
+    &lt;br&gt;Have a look at the data - the columns are in a different order in the two data sets.
+    &lt;br&gt;We can visualise this further by a plot of rainfall by year
+    &lt;br&gt;We want to put both of the data sheets together. For this we go to Prepare &amp;gt; Data Reshape &amp;gt; Append dialogue in R-Instat. We suggest having a look at the tutorial on merging and appending data in R-Instat.
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p style="margin-left:30px"&gt;&lt;img src="https://github.com/IDEMSInternational/wxmaxima-stack/blob/main/data-files/appending-data-4.jpg?raw=true"&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Try again, but if stuck there is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-14">-</falsescoremode>
+        <falsescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-15">0</falsescore>
+        <falsepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-16"/>
+        <falsenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-17">4</falsenextnode>
+        <falseanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-18">prt1-4-F</falseanswernote>
+        <falsefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-9-19-1"/>
+        </falsefeedback>
+      </node>
+      <node original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-1">4</name>
+        <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-2">disregards the order of the columns</description>
+        <answertest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-3">AlgEquiv</answertest>
+        <sans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-4">node5_test</sans>
+        <tans original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-5">1</tans>
+        <testoptions original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-6"/>
+        <quiet original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-7" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-7" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-7">0</quiet>
+        <truescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-8" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-8" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-8">+</truescoremode>
+        <truescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-9" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-9" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-9">0</truescore>
+        <truepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-10" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-10" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-10"/>
+        <truenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-11" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-11" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-11">-1</truenextnode>
+        <trueanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-12" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-12" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-12">prt1-5-T</trueanswernote>
+        <truefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-13-1">&lt;p&gt;It appears that when combining the data sets, you have not taken into account the order of the columns.
+    &lt;br&gt;Have a look at the data - the columns are in a different order in the two data sets.
+    &lt;br&gt;We can visualise this further by a plot of rainfall by year
+    &lt;br&gt;We want to put both of the data sheets together. For this we go to Prepare &amp;gt; Data Reshape &amp;gt; Append dialogue in R-Instat. We suggest having a look at the tutorial on merging and appending data in R-Instat.
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&lt;p style="margin-left:30px"&gt;&lt;img src="https://github.com/IDEMSInternational/wxmaxima-stack/blob/main/data-files/appending-data-3.jpg?raw=true"&gt;&lt;/p&gt;
+
+&lt;p&gt;Try again, but if stuck there is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-14" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-14" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-14">-</falsescoremode>
+        <falsescore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-15" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-15" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-15">0</falsescore>
+        <falsepenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-16" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-16" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-16"/>
+        <falsenextnode original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-17" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-17" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-17">-1</falsenextnode>
+        <falseanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-18" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-18" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-18">prt1-5-F</falseanswernote>
+        <falsefeedback format="html" original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19">
+          <text original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-32-10-19-1">&lt;p&gt;Not quite - are you looking at the &lt;b&gt;overall rainfall&lt;/b&gt; for each year?
+    &lt;br&gt;We want to put both of the data sheets together. For this we go to Prepare &amp;gt; Data Reshape &amp;gt; Append dialogue in R-Instat. We suggest having a look at the tutorial on merging and appending data in R-Instat.
+&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Try again, but if stuck there is a worked solution of this problem &lt;a href="https://ecampus.idems.international/course/view.php?id=238&amp;amp;section=97"&gt;here&lt;/a&gt;.
+&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33">
+      <testcase original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-1">1</testcase>
+      <description original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-2">Test case assuming the teacher's input gets full marks.</description>
+      <testinput original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-1">ans1</name>
+        <value original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-3-2">first(mcq_correct(ma1))</value>
+      </testinput>
+      <testinput original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-1">ans2</name>
+        <value original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-4-2">first(mcq_correct(ma2))</value>
+      </testinput>
+      <testinput original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-1">ans3</name>
+        <value original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-5-2">ta3</value>
+      </testinput>
+      <expected original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6">
+        <name original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-1" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-1" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-1">prt1</name>
+        <expectedscore original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-2" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-2" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-2">1.0000000</expectedscore>
+        <expectedpenalty original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-3" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-3" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-3">0.0000000</expectedpenalty>
+        <expectedanswernote original-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-4" assembly-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-4" unique-id="source-stack-default-for-stats-gold-technical-skills-appending-data-xml-1-1-33-6-4">prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>
+                

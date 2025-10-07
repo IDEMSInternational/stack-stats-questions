@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Fill ANOVA table for a millet experiment</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>An experiment is conducted on {@plots@} plots to understand the effect of several factors on the yield of millet.</p>
+<p>The factors are: {@variety@} varieties of millet, {@weeding@} types of weeding and {@fert@} different levels of fertiliser.</p>
+<p>Complete the ANOVA table for the experiment.</p> 
+<p><b>Give the values to \(1\) decimal place.</b></p> 
+
+<p>
+<style type="text/css">
+#maintable td.blue {color:#00F;}
+</style>
+<table>
+<caption></caption>
+<thead>
+<tr>
+<th scope="col" style="text-align: center;border: 1px solid black; " width="100">Term</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">Df</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">Sum Sq</th>
+<th scope="col" style="text-align: center;border: 1px solid black;" width="100">Mean Sq</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">F Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Variety</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_variety_df]] [[validation:ans_variety_df]] [[feedback:prt1_variety_df]]</td>
+<td style="text-align: center;border: 1px solid black; ">{@variety_ss@}</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_variety_ms]] [[validation:ans_variety_ms]] [[feedback:prt_variety_ms]]</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_variety_f]] [[validation:ans_variety_f]] [[feedback:prt_variety_f]]</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Weeding</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_weeding_df]] [[validation:ans_weeding_df]] [[feedback:prt_weeding_df]]</td>
+<td style="text-align: center;border: 1px solid black; ">{@weeding_ss@}</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_weeding_ms]] [[validation:ans_weeding_ms]] [[feedback:prt_weeding_ms]]</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_weeding_f]] [[validation:ans_weeding_f]] [[feedback:prt_weeding_f]]</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Fertiliser</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_fert_df]] [[validation:ans_fert_df]] [[feedback:prt_fert_df]]</td>
+<td style="text-align: center;border: 1px solid black; ">{@fert_ss@}</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_fert_ms]] [[validation:ans_fert_ms]] [[feedback:prt_fert_ms]]</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_fert_f]] [[validation:ans_fert_f]] [[feedback:prt_fert_f]]</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Residuals</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_resid_df]] [[validation:ans_resid_df]] [[feedback:prt_resid_df]]</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_resid_ss]] [[validation:ans_resid_ss]] [[feedback:prt_resid_ss]]</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_resid_ms]] [[validation:ans_resid_ms]] [[feedback:prt_resid_ms]]</td>
+<td style="text-align: center;border: 1px solid black; "></td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Total</td>
+<td style="text-align: center;border: 1px solid black; ">[[input:ans_total_df]] [[validation:ans_total_df]] [[feedback:prt1_total_df]]</td>
+<td style="text-align: center;border: 1px solid black; ">{@total_ss@}</td>
+<td style="text-align: center;border: 1px solid black; "></td>
+<td style="text-align: center;border: 1px solid black; "></td>
+</tr>
+</tbody>
+</table>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>The complete ANOVA table is shown below.</p>
+
+<p>There are a few key points to remember:</p>
+<ul>
+  <li>The residual is the "left over" after taking into account the variables. So the residual Df and sum of squares is the difference between the total values and the sum of the variables values.</li>
+  <li>The mean sum of squares is simply the sum of squares per Df.</li>
+  <li>The F value is the ratio of the mean sum of squares and the residual sum of squares. It allows us to compare the variability explained by a variable compared to the unexplained (residual) variability.</li>
+</ul>
+<p>
+<table>
+<caption></caption>
+<thead>
+<tr>
+<th scope="col" style="text-align: center;border: 1px solid black; " width="100">Term</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">Df</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">Sum Sq</th>
+<th scope="col" style="text-align: center;border: 1px solid black;" width="100">Mean Sq</th>
+<th scope="col" style="text-align: center; border: 1px solid black;" width="100">F Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Variety</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@variety_df@}</td>
+<td style="text-align: center;border: 1px solid black; ">{@variety_ss@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@variety_ms@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@variety_f@}</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Weeding</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@weeding_df@}</td>
+<td style="text-align: center;border: 1px solid black; ">{@weeding_ss@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@weeding_ms@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@weeding_f@}</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Fertiliser</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@fert_df@}</td>
+<td style="text-align: center;border: 1px solid black; ">{@fert_ss@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@fert_ms@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@fert_f@}</td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Residuals</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@resid_df@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@resid_ss@}</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@resid_ms@}</td>
+<td style="text-align: center;border: 1px solid black; "></td>
+</tr>
+<tr>
+<td style="text-align: center;border: 1px solid black; ">Total</td>
+<td style="color:#00F; text-align: center;border: 1px solid black; ">{@total_df@}</td>
+<td style="text-align: center;border: 1px solid black; ">{@total_ss@}</td>
+<td style="text-align: center;border: 1px solid black; "></td>
+<td style="text-align: center;border: 1px solid black; "></td>
+</tr>
+</tbody>
+</table>
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>dp(x, n) := float(round((x+10^(-8))*10^n)/10^n);
+
+plots: 30+rand(10);
+variety: 4+rand(3);
+weeding: 2+rand(2);
+fert: 3+rand(2);
+variety_df:variety-1;
+weeding_df: weeding-1;
+fert_df: fert-1;
+total_df: plots-1;
+resid_df: total_df-weeding_df-variety_df-fert_df;
+
+variety_ss: dp(float((rand(10)/10)+(rand(10)+20)),1);
+weeding_ss: dp(float((rand(10)/10)+(rand(10)+10)),1);
+fert_ss: dp(float((rand(10)/10)+rand(6)+40),1);
+resid_ss: dp(float((rand(10)/10)+(rand(20)+65)),1);
+total_ss: dp(variety_ss+weeding_ss+fert_ss+resid_ss,1);
+
+variety_ms: dp(variety_ss/variety_df,1);
+weeding_ms: dp(weeding_ss/weeding_df,1);
+fert_ms: dp(fert_ss/fert_df,1);
+resid_ms: dp(resid_ss/resid_df,1);
+
+variety_f: dp(variety_ms/resid_ms,1);
+weeding_f: dp(weeding_ms/resid_ms,1);
+fert_f: dp(fert_ms/resid_ms,1);
+
+ta1:fert_df;
+ta2:resid_df;
+ta3:resid_ss;
+ta4:variety_ms;
+ta5:weeding_ms;
+ta6:fert_ms;
+ta7:resid_ms;
+ta8:variety_f;
+ta9:weeding_f;
+ta10:fert_f;
+ta11: variety_df;
+ta12: weeding_df;
+ta13: total_df;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>This question note was 1. This is marginally better, but someone should fix this.</p>
+{@ta1@}
+{@ta2@}
+{@ta3@}
+{@ta4@}
+{@ta5@}
+{@ta6@}
+{@ta7@}
+{@ta8@}
+{@ta9@}
+{@ta10@}
+{@ta11@}
+{@ta12@}
+{@ta13@}]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_fert_df</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_fert_f</name>
+      <type>numerical</type>
+      <tans>ta10</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_fert_ms</name>
+      <type>numerical</type>
+      <tans>ta6</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_resid_df</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_resid_ms</name>
+      <type>numerical</type>
+      <tans>ta7</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_resid_ss</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_total_df</name>
+      <type>numerical</type>
+      <tans>ta13</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_variety_df</name>
+      <type>numerical</type>
+      <tans>ta11</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_variety_f</name>
+      <type>numerical</type>
+      <tans>ta8</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_variety_ms</name>
+      <type>numerical</type>
+      <tans>ta4</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_weeding_df</name>
+      <type>numerical</type>
+      <tans>ta12</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_weeding_f</name>
+      <type>numerical</type>
+      <tans>ta9</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <input>
+      <name>ans_weeding_ms</name>
+      <type>numerical</type>
+      <tans>ta5</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <prt>
+      <name>prt_fert_df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_fert_df</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>There are {@fert@} levels of fertiliser, hence there are {@ta1@} i.e. \((n-1)\) degrees of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_fert_f</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta10: dp(ans_fert_ms/ans_resid_ms,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_fert_f</sans>
+        <tans>s_ta10</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt10-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct F value based on your mean sum of squares and residual sum of squares.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt10-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_fert_f</sans>
+        <tans>ta10</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt10-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your F value is correct, but your mean sum of squares or residual sum of squares is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt10-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The F value is the ratio of the mean sum of squares over the residual sum of squares.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_fert_ms</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta6: dp(fert_ss/ans_fert_df,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_fert_ms</sans>
+        <tans>s_ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct mean square value based on your sum of squares and Df.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fert_ss@}
+{@ans_fert_df@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_fert_ms</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your mean sum of squares is correct, but your Df is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Mean sum of squares is the sum of squares per degree of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_resid_df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta2: ans_total_df-ans_variety_df-ans_weeding_df-ans_fert_df</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_resid_df</sans>
+        <tans>s_ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct residual Df based on the total and factor Df values in your table.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_resid_df</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your residual Df is correct, but some of your other Df values are not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Residual is the "left over" from the variables. So the residual degrees of freedom is the total degree of freedom of the data minus the degrees of freedoms of the factors.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_resid_ms</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta7: dp(ans_resid_ss/ans_resid_df,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_resid_ms</sans>
+        <tans>s_ta7</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct residual mean square value based on your residual sum of squares and Df.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_resid_ms</sans>
+        <tans>ta7</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your mean sum of squares is correct, but your sum of squares or Df is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Mean sum of squares is the sum of squares per degree of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_resid_ss</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_resid_ss</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Like the degrees of freedom, the residual sum of squares is the total sum of squares minus the sums of squares of the variables.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_variety_f</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta8: dp(ans_variety_ms/ans_resid_ms,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_variety_f</sans>
+        <tans>s_ta8</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct F value based on your mean sum of squares and residual sum of squares.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_variety_f</sans>
+        <tans>ta8</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your F value is correct, but your mean ss is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The F value is the ratio of the mean sum of squares over the residual sum of squares.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_variety_ms</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta4: dp(variety_ss/ans_variety_df,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_variety_ms</sans>
+        <tans>s_ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct mean square value based on your sum of squares and Df.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_variety_ms</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your mean sum of squares is correct, but your Df is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Mean sum of squares is the sum of squares per degree of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_weeding_df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_weeding_df</sans>
+        <tans>ta12</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt12-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt12-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>There are {@weeding@} levels of weeding, hence there are {@ta12@} i.e. \((n-1)\) degrees of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_weeding_f</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta9: dp(ans_weeding_ms/ans_resid_ms,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans_weeding_f</sans>
+        <tans>s_ta9</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt9-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct F value based on your mean sum of squares and residual sum of squares.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt9-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_weeding_f</sans>
+        <tans>ta9</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt9-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your F value is correct, but your mean sum of squares or residual sum of squares is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt9-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The F value is the ratio of the mean sum of squares over the residual sum of squares.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_weeding_ms</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_ta5: dp(weeding_ss/ans_weeding_df,1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_weeding_ms</sans>
+        <tans>s_ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Correct mean square value based on your sum of squares and Df.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_weeding_ms</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_weeding_ms-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Hmm, how did this happen? Your mean mean square is correct, but your Df is not. Did you make a typing mistake? Anyway you still get some marks :)</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_weeding_ms-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Mean sum of squares is the sum of squares per degree of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1_total_df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_total_df</sans>
+        <tans>ta13</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt13-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt13-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The total degrees of freedom is the number of observations minus \(1\), so {@total_df@}.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1_variety_df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_variety_df</sans>
+        <tans>ta11</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt11-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt11-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>There are {@variety@} different varieties, hence there are {@ta11@} i.e. \((n-1)\) degrees of freedom.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>408042425</deployedseed>
+    <deployedseed>1844761798</deployedseed>
+    <deployedseed>1192345098</deployedseed>
+    <deployedseed>1960516951</deployedseed>
+    <deployedseed>1781511457</deployedseed>
+    <deployedseed>802855958</deployedseed>
+    <deployedseed>286416426</deployedseed>
+    <deployedseed>714241569</deployedseed>
+    <deployedseed>2043431606</deployedseed>
+    <deployedseed>876461352</deployedseed>
+    <deployedseed>1540175555</deployedseed>
+    <deployedseed>521137151</deployedseed>
+    <deployedseed>92500197</deployedseed>
+    <deployedseed>500830597</deployedseed>
+    <deployedseed>1694534167</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans_fert_df</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans_fert_f</name>
+        <value>ta10</value>
+      </testinput>
+      <testinput>
+        <name>ans_fert_ms</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans_resid_df</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans_resid_ms</name>
+        <value>ta7</value>
+      </testinput>
+      <testinput>
+        <name>ans_resid_ss</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans_total_df</name>
+        <value>ta13</value>
+      </testinput>
+      <testinput>
+        <name>ans_variety_df</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans_variety_f</name>
+        <value>ta8</value>
+      </testinput>
+      <testinput>
+        <name>ans_variety_ms</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans_weeding_df</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans_weeding_f</name>
+        <value>ta9</value>
+      </testinput>
+      <testinput>
+        <name>ans_weeding_ms</name>
+        <value>ta5</value>
+      </testinput>
+      <expected>
+        <name>prt_fert_df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_fert_f</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt10-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_fert_ms</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_resid_df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_resid_ms</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_resid_ss</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_variety_f</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_variety_ms</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_weeding_df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt12-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_weeding_f</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt9-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_weeding_ms</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1_total_df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt13-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1_variety_df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt11-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

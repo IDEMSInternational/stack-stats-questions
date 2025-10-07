@@ -1,0 +1,12 @@
+
+        <chapter xml:id="ch-default-for-stats-gold" xmlns:xi="http://www.w3.org/2001/XInclude">
+            <title>Default for Stats Gold</title>
+            <introduction>
+                
+                
+            </introduction>
+            <xi:include href="technical-skills/technical-skills.ptx" />
+<xi:include href="conceptual-understanding/conceptual-understanding.ptx" />
+<xi:include href="applied-comprehension/applied-comprehension.ptx" />
+        </chapter>
+        

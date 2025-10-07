@@ -1,0 +1,69 @@
+
+        <section xml:id="sec-applied-comprehension" xmlns:xi="http://www.w3.org/2001/XInclude">
+            <title>Applied Comprehension</title>
+            <introduction>
+                
+                
+            <exercise>
+                <title>Estimate standard deviation</title>
+    
+
+                <!--<introduction>
+                    <p></p>
+                </introduction>-->
+
+                <!-- A @label is required, becomes a filename in output -->
+                <stack label="source-stack-default-for-stats-gold-applied-comprehension-estimate-standard-deviation-xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+                    <xi:include href="../../stack/Default-for-Stats-Gold/Applied-Comprehension/Estimate-standard-deviation.xml" />
+                </stack>
+            </exercise>
+            
+
+            <exercise>
+                <title>Place the estimated value of mean and median in stacked dotplot</title>
+    
+
+                <!--<introduction>
+                    <p></p>
+                </introduction>-->
+
+                <!-- A @label is required, becomes a filename in output -->
+                <stack label="source-stack-default-for-stats-gold-applied-comprehension-place-the-estimated-value-of-mean-and-median-in-stacked-dotplot-xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+                    <xi:include href="../../stack/Default-for-Stats-Gold/Applied-Comprehension/Place-the-estimated-value-of-mean-and-median-in-stacked-dotplot.xml" />
+                </stack>
+            </exercise>
+            
+
+            <exercise>
+                <title>Model Comparison</title>
+    
+
+                <!--<introduction>
+                    <p></p>
+                </introduction>-->
+
+                <!-- A @label is required, becomes a filename in output -->
+                <stack label="source-stack-default-for-stats-gold-applied-comprehension-model-comparison-xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+                    <xi:include href="../../stack/Default-for-Stats-Gold/Applied-Comprehension/Model-Comparison.xml" />
+                </stack>
+            </exercise>
+            
+
+            <exercise>
+                <title>Estimate mean &amp; median</title>
+    
+
+                <!--<introduction>
+                    <p></p>
+                </introduction>-->
+
+                <!-- A @label is required, becomes a filename in output -->
+                <stack label="source-stack-default-for-stats-gold-applied-comprehension-estimate-mean-median-xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+                    <xi:include href="../../stack/Default-for-Stats-Gold/Applied-Comprehension/Estimate-mean-median.xml" />
+                </stack>
+            </exercise>
+            
+            </introduction>
+            
+        </section>
+        
