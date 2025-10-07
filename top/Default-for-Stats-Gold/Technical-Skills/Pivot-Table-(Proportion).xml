@@ -1,0 +1,1143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Pivot Table (Proportion)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>A survey was performed between farms to determine their planting preferences. Three variables are given in this survey:</p>
+<ol>
+    <li>Sex of the farmer - male or female</li>
+    <li>Village of the farmer - north or south</li>
+    <li>Variety of the crop - A or B</li>
+</ol>
+
+<p>The task is to use the data below to answer the following questions <strong>using pivot tables</strong> to investigate the data.</p>
+
+<p><button onclick="exportToCsv()">Download Data</button></p>
+
+<br>
+<p>Note: Leave your answer in fraction form</p>
+<p>1. What's the proportion of {@if quest_exp="Male" then "male farmers" else if quest_exp="Female" then "female farmers" else if quest_exp="North" then "farmers from the north village" else if quest_exp="South" then "farmers from the south village"@} who are planting Variety {@quest_var@}?</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
+<p>[[feedback:prt1]]</p>
+
+<p>2. Of those who planted Variety {@quest_var@}, what proportion of the farmers are {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@}.</p>
+<p>[[input:ans2]] [[validation:ans2]]</p>
+<p>[[feedback:prt2]]</p>
+
+<p>3. What's the proportion of individuals who are {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} and planting Variety {@quest_var@}</p>
+<p>[[input:ans3]] [[validation:ans3]]</p>
+<p>[[feedback:prt3]]</p>
+
+<script>
+var Results= {#data_set#};
+
+exportToCsv = function(file_name) {
+  var CsvString = "";
+  Results.forEach(function(RowItem, RowIndex) {
+    RowItem.forEach(function(ColItem, ColIndex) {
+             CsvString += ColItem;
+             if( ColIndex < RowItem.length - 1){
+                 CsvString += ',';
+                } 
+    });
+    CsvString += "\r\n";
+  });
+  CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+ var x = document.createElement("A");
+ x.setAttribute("href", CsvString );
+ x.setAttribute("download","data_set.csv");
+ document.body.appendChild(x);
+ x.click();
+}
+</script>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* ------------- INFORMATION FROM QUESTION AUTHORS */
+
+varietyA_prob: (rand(7)+2)/10;
+
+factor_info: [
+    ["Sex", [
+        ["Male", 0.4], 
+        ["Female", 0.6]
+    ]],
+    ["Village", [
+        ["North", 0.2], 
+        ["South", 0.8]
+    ]],
+    ["Variety", [
+        ["A", varietyA_prob], 
+        ["B", 1-varietyA_prob]
+    ]]
+];
+
+/* Dataset dimensions */
+number_rows: rand_with_step(91,99,1);
+
+/* ------------- END AUTHOR INFO */
+
+
+/* ------------- DATA SET GENERATION */
+
+column_data: [];
+
+/* Useful variables */
+number_factors: length(factor_info);
+factor_names: makelist(factor_info[i][1], i, 1, number_factors);
+
+/* Generate data for each factor */
+for factor in factor_info do block(
+    
+    /* Generate probability ranges for each value */
+    number_options: length(factor[2]),
+    option_values: makelist(factor[2][i][1], i, 1, number_options),
+    option_probabilities: makelist(factor[2][i][2], i, 1, number_options),
+    factor_data: [],    
+    
+    /* Generate randomised correct values */
+    /* Assign each option in the list a interval in [0,1] of length equal to the associated probability */
+    value_prob_ranges: makelist(
+        [sum(option_probabilities[j], j, 1, i-1), sum(option_probabilities[j], j, 1, i)], i, 1, number_options
+    ),
+    /* Randomise choice of option by generating a number in [0,1] and determining in which interval it falls */
+    for i: 1 thru number_rows step 1 do block(
+        rn: rand(1.0),
+        for j: 1 thru number_options step 1 do block(
+            if value_prob_ranges[j][1] <= rn and rn < value_prob_ranges[j][2] then factor_data: append(factor_data, [option_values[j]])
+        )
+    ),
+   
+    /* Append data for each factor to the dataset */
+    column_data: append(column_data, [factor_data])
+
+);
+
+/* Rotate the data to be given in rows rather than columns of each factor, also add header row */
+data_set: append(
+    [factor_names], 
+    makelist(makelist(column_data[j][i], j, 1, number_factors), i, 1, number_rows)
+);
+
+/* ------------- END OF DATA SET GENERATION */
+
+
+/* ------------- QUESTION VARIABLES */
+
+/* Is the question generally about the sex or village of those surveyed? */
+quest_form: rand(["sex", "village"]);
+quest_index: if quest_form="sex" then 1 else if quest_form="village" then 2;
+
+/* Is the question about the men or women (eq. North or South village)? */
+quest_exp: if quest_form="sex" then rand(["Male", "Female"])
+    else if quest_form="village" then rand(["North", "South"]);
+
+/* Is the question about variety A or B of the crop? */
+quest_var: rand(["A", "B"]);
+
+/* Sublists containing only quest_exp, quest_var or both */
+quest_exp_only: sublist(data_set, lambda([x], is(x[quest_index]=quest_exp)));
+quest_var_only: sublist(data_set, lambda([x], is(x[3]=quest_var)));
+quest_exp_and_var: sublist(quest_exp_only, lambda([x], is(x[3]=quest_var)));
+
+/* Number of entries containing only quest_exp, quest_var or both */
+no_quest_exp_only: length(quest_exp_only);
+no_quest_var_only: length(quest_var_only);
+no_quest_exp_and_var: length(quest_exp_and_var);
+
+/* question 1 - what is the probability of "quest_exp" participants who are planting variety "quest_var"? */
+ta_1: no_quest_exp_and_var/no_quest_exp_only;
+
+/* question 2 - of those who planted "quest_var", how many are "quest_exp"? */
+ta_2: no_quest_exp_and_var/no_quest_var_only;
+
+/* question 3 - what proportion are "quest_exp" and planting "quest_var"? */
+ta_3: no_quest_exp_and_var/number_rows;
+
+/* ------------- END OF QUESTION VARIABLES */]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>1. Proportion of {@quest_exp@} farmers planting Variety {@quest_var@}</p>
+<p>{@ta_1@}</p>
+
+<p>2. Of those planting Variety {@quest_var@}, what proportion are {@quest_exp@}</p>
+<p>{@ta_2@}</p>
+
+<p>3. Proportion of individuals who are {@quest_exp@} and planting Variety {@quest_var@}</p>
+<p>{@ta_3@}</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[<p id="author">Dan Kelly</p>
+<p id="concept">https://docs.google.com/document/d/1yPGZysLZE1r3R_oom4SQiMknF64FzULcWvQMBF1uBsk/edit#heading=h.wvpxq8elfr9z</p>
+<p id="reviewer"></p>
+<p id="description"></p>]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta_1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords>%</allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta_2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta_3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* wrong denominator */
+node2_error: no_quest_exp_and_var/number_rows;
+node3_error: no_quest_exp_and_var/no_quest_var_only;
+
+/* wrong numerator */
+node4_error: no_quest_var_only/number_rows;
+node5_error: no_quest_exp_only/number_rows;
+
+/* other mistake */
+node6_error: no_quest_exp_only/no_quest_var_only;
+
+/*answer as rounded percentage?*/
+simp:false;
+rounded_percentage_check:if denom(ans1)=100 then 1 else 0;
+simp:true;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>check correct answer</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta_1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The question is essentially asking for the fraction of {@if quest_exp="Male" then "male farmers" else if quest_exp="Female" then "female farmers" else if quest_exp="North" then "farmers from the north village" else if quest_exp="South" then "farmers from the south village"@} who engage in planting variety {@quest_var@}</p>
+<p>We find the proportion of  {@if quest_exp="Male" then "male farmers" else if quest_exp="Female" then "female farmers" else if quest_exp="North" then "farmers from the north village" else if quest_exp="South" then "farmers from the south village"@} planting variety {@quest_var@} by dividing their number by the the number of rows in the data set  \(=\displaystyle \frac{{@no_quest_exp_and_var@}}{{@no_quest_exp_only@}}\) </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>6</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>node2_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. 
+<br>However, we want to look at this <b>out of</b> the farmers who are {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>node3_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. 
+<br>However, we want to look at this <b>out of</b> the farmers who are {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>node4_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. 
+<br>We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>node5_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. 
+<br>We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>other mistake</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>node6_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Not quite. Have a think about the pivot table. We want to have a 2x2 table with {@quest_form@} by variety.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description>Classify cases where answer is rounded percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>rounded_percentage_check</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>7</truenextnode>
+        <trueanswernote>prt1-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description>exact percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>100*ans1</sans>
+        <tans>decimalplaces(float(ta_1)*100,0)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.9</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You gave your answer correctly as a rounded percentage. However, you were asked for the proportion.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>8</falsenextnode>
+        <falseanswernote>prt1-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>8</name>
+        <description>close percentage</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>100*ans1</sans>
+        <tans>decimalplaces(float(ta_1)*100,0)</tans>
+        <testoptions>1</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-9-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you gave your answer as a rounded percentage while you were asked for the proportion. Additionally, and the rounding is not quite right.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>9</falsenextnode>
+        <falseanswernote>prt1-9-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>It appears that you attempted to give your answer as a rounded percentage while you were asked for the proportion.
+<br>Therefore the denominator of your fraction should be the number of rows in the dataset.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>9</name>
+        <description>checks for decimalplaces</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>float(ta_1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-10-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-10-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* wrong denominator */
+node2_error: no_quest_exp_and_var/number_rows;
+node3_error: no_quest_exp_and_var/no_quest_exp_only;
+
+/* wrong numerator */
+node4_error: no_quest_var_only/number_rows;
+node5_error: no_quest_exp_only/number_rows;
+
+/* other mistake */
+node6_error: no_quest_var_only/no_quest_exp_only;
+
+/*answer as rounded percentage?*/
+simp:false;
+rounded_percentage_check:if denom(ans2)=100 then 1 else 0;
+simp:true;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>check correct answer</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta_2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>6</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>node2_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. However, we want to look at this <b>out of</b> the farmers who planted variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>node3_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. However, we want to look at this <b>out of</b> the farmers who planted variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>node4_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt2-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>node5_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt2-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>other mistake</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>node6_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Not quite. Have a think about the pivot table. We want to have a 2x2 table with {@quest_form@} by variety.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description>Classify cases where answer is rounded percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>rounded_percentage_check</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>7</truenextnode>
+        <trueanswernote>prt2-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description>exact percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>100*ans2</sans>
+        <tans>decimalplaces(float(ta_2)*100,0)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.9</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You gave your answer correctly as a rounded percentage. However, you were asked for the proportion.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>8</falsenextnode>
+        <falseanswernote>prt2-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>8</name>
+        <description>close percentage</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>100*ans2</sans>
+        <tans>decimalplaces(float(ta_2)*100,0)</tans>
+        <testoptions>1</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-9-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you gave your answer as a rounded percentage while you were asked for the proportion. Additionally, and the rounding is not quite right.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-9-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>It appears that you attempted to give your answer as a rounded percentage while you were asked for the proportion.
+<br>Therefore the denominator of your fraction should be the number of rows in the dataset.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* wrong denominator */
+node2_error: no_quest_exp_and_var/no_quest_var_only;
+node3_error: no_quest_exp_and_var/no_quest_exp_only;
+
+/* wrong numerator */
+node4_error: no_quest_var_only/number_rows;
+node5_error: no_quest_exp_only/number_rows;
+
+/* other mistakes */
+node6_error: no_quest_exp_only/no_quest_var_only;
+node7_error: no_quest_var_only/no_quest_exp_only;
+
+/*answer as rounded percentage?*/
+simp:false;
+rounded_percentage_check:if denom(ans1)=100 then 1 else 0;
+simp:true;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>check correct answer</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta_3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The question is essentially asking for the fraction of individuals from  {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} and planting Variety {@quest_var@}  by dividing their number by the number of rows in the data set  \(={@ta_3@}\) </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>7</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node2_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. However, we want to look at this <b>out of</b> all the farmers.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>wrong denominator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node3_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is correct, so you are looking at the right group of individuals. However, we want to look at this <b>out of</b> all the farmers.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node4_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt3-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description>wrong numerator</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node5_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that the numerator of your proportion is not quite correct. We want to look at for individuals who are both {@if quest_exp="Male" then "male" else if quest_exp="Female" then "female" else if quest_exp="North" then "from the north village" else if quest_exp="South" then "from the south village"@} <b>and</b> use variety {@quest_var@}.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt3-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>other mistakes</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node6_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Not quite. Have a think about the pivot table. We want to have a 2x2 table with {@quest_form@} by variety.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>6</falsenextnode>
+        <falseanswernote>prt3-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description>other mistakes</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>node7_error</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Not quite. Have a think about the pivot table. We want to have a 2x2 table with {@quest_form@} by variety.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description>Classify cases where answer is rounded percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>rounded_percentage_check</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>8</truenextnode>
+        <trueanswernote>prt3-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>8</name>
+        <description>exact percentage</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>100*ans3</sans>
+        <tans>decimalplaces(float(ta_3)*100,0)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.9</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-9-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You gave your answer correctly as a rounded percentage. However, you were asked for the proportion.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>9</falsenextnode>
+        <falseanswernote>prt3-9-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>9</name>
+        <description>close percentage</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>100*ans3</sans>
+        <tans>decimalplaces(float(ta_3)*100,0)</tans>
+        <testoptions>1</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-10-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears that you gave your answer as a rounded percentage while you were asked for the proportion. Additionally, and the rounding is not quite right.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-10-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>It appears that you attempted to give your answer as a rounded percentage while you were asked for the proportion.
+<br>Therefore the denominator of your fraction should be the number of rows in the dataset.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1177705686</deployedseed>
+    <deployedseed>1869894104</deployedseed>
+    <deployedseed>2099431645</deployedseed>
+    <deployedseed>1401350002</deployedseed>
+    <deployedseed>1309508461</deployedseed>
+    <deployedseed>791681937</deployedseed>
+    <deployedseed>1911896793</deployedseed>
+    <deployedseed>410931084</deployedseed>
+    <deployedseed>835612872</deployedseed>
+    <deployedseed>691372427</deployedseed>
+    <deployedseed>612924321</deployedseed>
+    <deployedseed>1701751675</deployedseed>
+    <deployedseed>218211428</deployedseed>
+    <deployedseed>2040613227</deployedseed>
+    <deployedseed>2117694960</deployedseed>
+    <deployedseed>2130360777</deployedseed>
+    <deployedseed>639571339</deployedseed>
+    <deployedseed>61514645</deployedseed>
+    <deployedseed>1004453818</deployedseed>
+    <deployedseed>1073641119</deployedseed>
+    <deployedseed>1251764276</deployedseed>
+    <deployedseed>1104149951</deployedseed>
+    <deployedseed>2116463331</deployedseed>
+    <deployedseed>159293109</deployedseed>
+    <deployedseed>861216255</deployedseed>
+    <deployedseed>1647883001</deployedseed>
+    <deployedseed>2101950508</deployedseed>
+    <deployedseed>176076653</deployedseed>
+    <deployedseed>658044513</deployedseed>
+    <deployedseed>125904139</deployedseed>
+    <deployedseed>1199501157</deployedseed>
+    <deployedseed>1667670667</deployedseed>
+    <deployedseed>2012974973</deployedseed>
+    <deployedseed>630993233</deployedseed>
+    <deployedseed>1834854489</deployedseed>
+    <deployedseed>1662004458</deployedseed>
+    <deployedseed>503126214</deployedseed>
+    <deployedseed>1330432592</deployedseed>
+    <deployedseed>1104541205</deployedseed>
+    <deployedseed>167769226</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta_1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta_2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta_3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>
